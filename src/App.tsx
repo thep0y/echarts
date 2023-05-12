@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import './App.css'
+import './App.scss'
 import Header from '~/components/Header'
 
 const App: React.FC = () => {
@@ -15,7 +15,8 @@ const App: React.FC = () => {
   return (
     <>
       {
-        isContainerReady ? <Header element={containerRef.current} /> : null
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        isContainerReady ? <Header element={containerRef.current!} /> : null
       }
 
       <div id="container" ref={containerRef}></div>
@@ -24,4 +25,3 @@ const App: React.FC = () => {
 }
 
 export default App
-
