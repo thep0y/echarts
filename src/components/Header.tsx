@@ -1,7 +1,7 @@
 import React, { memo } from 'react'
 import { graph } from '~/charts'
 
-type Render = (e: HTMLDivElement) => void
+type Render = (e: HTMLDivElement, clear?: boolean) => void
 
 const charts: Record<string, Render> = {
   网络关系图: graph

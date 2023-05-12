@@ -33,8 +33,10 @@ type EChartsOption = echarts.ComposeOption<
 | GraphSeriesOption
 >
 
-export const graph = (element: HTMLDivElement): void => {
+export const graph = (element: HTMLDivElement, clear = false): void => {
   const chart = echarts.init(element)
+
+  clear && chart.clear()
 
   chart.hideLoading()
 
