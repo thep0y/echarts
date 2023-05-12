@@ -5,6 +5,7 @@
   "ignoreFiles": [
     "dist/**/*.css"
   ],
+  "customSyntax": "postcss-scss",
   "rules": {
     "at-rule-no-unknown": null,
     "at-rule-empty-line-before": [
