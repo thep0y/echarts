@@ -106,9 +106,9 @@ const categories: Category[] = organizations.map(({ name }) => ({ name }))
 const title = '机关间联合发文关系'
 
 export const graph = (element: HTMLDivElement, clear = false): void => {
-  const chart = echarts.init(element)
+  clear && echarts.dispose(element)
 
-  clear && chart.clear()
+  const chart = echarts.init(element)
 
   chart.hideLoading()
 
