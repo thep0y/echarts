@@ -1,12 +1,3 @@
-/*
- * Author:      thepoy
- * Email:       thepoy@163.com
- * File Name:   graph.ts
- * Created At:  2023-05-13 21:28:14
- * Modified At: 2023-05-13 21:45:38
- * Modified By: thepoy
- */
-
 import * as echarts from 'echarts/core'
 import {
   TitleComponent,
@@ -105,23 +96,12 @@ const links: GraphLink[] = [
 ]
 
 interface Category {
-  name: string
+  name?: string
 }
 
-const categories: Category[] = [
-  {
-    name: '农业农村部',
-  },
-  {
-    name: '生态环境部',
-  },
-  {
-    name: '国家发展与改革委员会',
-  },
-  {
-    name: '国家能源局',
-  },
-]
+const categories: Category[] = organizations.map(({ name }) => ({ name }))
+
+const title = '机关间联合发文关系'
 
 export const graph = (element: HTMLDivElement, clear = false): void => {
   const chart = echarts.init(element)
@@ -139,14 +119,15 @@ export const graph = (element: HTMLDivElement, clear = false): void => {
 
   const option: EChartsOption = {
     title: {
-      text: '部门间联合发文关系',
+      text: title,
       left: 'right',
     },
     tooltip: {},
     legend: [
       {
-        data: categories.map((a: { name: string }) => {
-          return a.name
+        data: categories.map((a) => {
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          return a.name!
         }),
       },
     ],
@@ -154,7 +135,7 @@ export const graph = (element: HTMLDivElement, clear = false): void => {
     animationEasingUpdata: 'quinticInOut',
     series: [
       {
-        name: '部门间联合发文关系',
+        name: title,
         type: 'graph',
         layout: 'force',
         force: {
