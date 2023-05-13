@@ -1,3 +1,11 @@
+/**
+ * @Author:      thepoy
+ * @Email:       thepoy@163.com
+ * @File Name:   .eslintrc.cjs
+ * @Created At:  2023-05-13 20:40:38
+ * @Modified At: 2023-05-13 20:53:49
+ * @Modified By: thepoy
+ */
 const OFF = 0;
 const WARNING = 1;
 const ERROR = 2;
@@ -8,7 +16,12 @@ module.exports = {
     browser: true,
     es2021: true,
   },
-  extends: ["plugin:react/recommended", "standard-with-typescript"],
+  parser: "@typescript-eslint/parser",
+  extends: [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended",
+  ],
   overrides: [],
   parserOptions: {
     tsconfigRootDir: __dirname,
@@ -16,7 +29,7 @@ module.exports = {
     ecmaVersion: "latest",
     sourceType: "module",
   },
-  plugins: ["react"],
+  plugins: ["react", "@typescript-eslint"],
   settings: {
     react: {
       version: "detect",
@@ -91,5 +104,6 @@ module.exports = {
     "react/jsx-curly-brace-presence": WARNING,
 
     "@typescript-eslint/strict-boolean-expressions": OFF,
+    "no-multiple-empty-lines": ["error", { max: 2, maxEOF: 1 }],
   },
 };

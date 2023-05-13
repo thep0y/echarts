@@ -17,13 +17,18 @@ const Header = memo(({ element }: HeaderProps) => {
   }
 
   return (
-    <>
+    <div id="charts">
       {Object.keys(charts).map((name, idx) => (
-        <button key={idx} onClick={() => { render(name) }}>
+        <button
+          key={idx}
+          onClick={() => {
+            render(name)
+          }}
+        >
           {name}
         </button>
       ))}
-    </>
+    </div>
   )
 })
 
