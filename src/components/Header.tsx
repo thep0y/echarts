@@ -13,7 +13,7 @@ interface HeaderProps {
 
 const Header = memo(({ element }: HeaderProps) => {
   const render = (name: string): void => {
-    charts[name](element)
+    charts[name](element, true)
   }
 
   return (
