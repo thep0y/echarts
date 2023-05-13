@@ -1,3 +1,12 @@
+/*
+ * Author:      thepoy
+ * Email:       thepoy@163.com
+ * File Name:   graph.ts
+ * Created At:  2023-05-13 21:28:14
+ * Modified At: 2023-05-13 21:45:38
+ * Modified By: thepoy
+ */
+
 import * as echarts from 'echarts/core'
 import {
   TitleComponent,
@@ -20,13 +29,13 @@ echarts.use([
 ])
 
 interface GraphNode {
-  id: number
-  name: string
-  symbolSize: number
+  id?: string
+  name?: string
+  symbolSize?: number
   label?: {
     show?: boolean
   }
-  category: number
+  category?: number
 }
 
 type EChartsOption = echarts.ComposeOption<
@@ -38,25 +47,25 @@ type EChartsOption = echarts.ComposeOption<
 
 const organizations: GraphNode[] = [
   {
-    id: 0,
+    id: '0',
     name: '农业农村部',
     symbolSize: 20,
     category: 0,
   },
   {
-    id: 1,
+    id: '1',
     name: '生态环境部',
     symbolSize: 13,
     category: 1,
   },
   {
-    id: 2,
+    id: '2',
     name: '国家发展与改革委员会',
     symbolSize: 10,
     category: 2,
   },
   {
-    id: 3,
+    id: '3',
     name: '国家能源局',
     symbolSize: 2,
     category: 3,
@@ -123,7 +132,8 @@ export const graph = (element: HTMLDivElement, clear = false): void => {
 
   data.nodes.forEach((element: GraphNode) => {
     element.label = {
-      show: element.symbolSize > 30,
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      show: element.symbolSize! > 30,
     }
   })
 

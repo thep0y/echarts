@@ -27,7 +27,8 @@
     }
   },
   "include": [
-    "src"
+    "src",
+    "node_modules/echarts/types/dist"
   ],
   "references": [
     {
