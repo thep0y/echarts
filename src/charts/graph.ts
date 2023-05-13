@@ -6,6 +6,7 @@ import {
   type TooltipComponentOption,
   LegendComponent,
   type LegendComponentOption,
+  ToolboxComponent,
 } from 'echarts/components'
 import { GraphChart, type GraphSeriesOption } from 'echarts/charts'
 import { CanvasRenderer } from 'echarts/renderers'
@@ -17,6 +18,7 @@ echarts.use([
   LegendComponent,
   GraphChart,
   CanvasRenderer,
+  ToolboxComponent,
 ])
 
 interface GraphNode {
@@ -120,7 +122,14 @@ export const graph = (element: HTMLDivElement, clear = false): void => {
   const option: EChartsOption = {
     title: {
       text: title,
-      left: 'right',
+    },
+    toolbox: {
+      show: true,
+      feature: {
+        saveAsImage: {
+          show: true,
+        },
+      },
     },
     tooltip: {},
     legend: [
