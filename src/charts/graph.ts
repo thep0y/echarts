@@ -12,6 +12,7 @@ import {
 import { GraphChart, type GraphSeriesOption } from 'echarts/charts'
 import { CanvasRenderer } from 'echarts/renderers'
 import data from './data.json'
+import { generateColors, generateRandomColors } from '~/lib/color'
 
 echarts.use([
   TitleComponent,
@@ -42,17 +43,20 @@ type EChartsOption = echarts.ComposeOption<
 
 interface Category {
   name?: string
+  value: number
 }
 
 const central = data['中央']
 
+const nodes = central.nodes.sort((a, b) => b.symbolSize - a.symbolSize)
+
 const categories: Category[] = []
 
-central.nodes.forEach((n) => {
-  n.x = Math.random() * 1000
-  n.y = Math.random() * 1000
-
-  categories.push({ name: n.name })
+nodes.forEach((node, idx) => {
+  // n.x = Math.random() * 1000
+  // n.y = Math.random() * 1000
+  node.category = idx
+  categories.push({ name: node.name })
 })
 
 const title = '机关间联合发文关系'
@@ -64,13 +68,15 @@ export const graph = (element: HTMLDivElement, clear = false): void => {
 
   chart.hideLoading()
 
-  central.nodes.forEach((element: GraphNode) => {
+  nodes.forEach((element: GraphNode) => {
     element.label = {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      show: element.symbolSize! > 30,
+      // show: element.symbolSize! > 30,
+      show: true,
     }
   })
 
+  const colors = generateColors(nodes.length)
   const option: EChartsOption = {
     title: {
       text: title,
@@ -82,10 +88,12 @@ export const graph = (element: HTMLDivElement, clear = false): void => {
       feature: {
         saveAsImage: {
           show: true,
+          pixelRatio: 3,
         },
       },
     },
     tooltip: {},
+    color: colors,
     legend: [
       {
         data: categories.map((a) => {
@@ -100,16 +108,16 @@ export const graph = (element: HTMLDivElement, clear = false): void => {
       {
         name: title,
         type: 'graph',
-        layout: 'none',
+        layout: 'force',
         force: {
-          repulsion: 400,
-          edgeLength: [800, 300],
+          repulsion: 1000,
+          edgeLength: [1000, 300],
         },
-        data: central.nodes,
+        data: nodes,
         links: central.links,
         categories: categories,
         roam: true,
-        draggable: false,
+        draggable: true,
         label: {
           position: 'right',
           formatter: '{b}',
@@ -130,7 +138,7 @@ export const graph = (element: HTMLDivElement, clear = false): void => {
 
   chart.setOption(option)
 
-  initInvisibleGraphic()
+  // initInvisibleGraphic()
 
   function initInvisibleGraphic() {
     // Add shadow circles (which is not visible) to enable drag.
@@ -165,7 +173,7 @@ export const graph = (element: HTMLDivElement, clear = false): void => {
     window.addEventListener('resize', updatePosition)
     chart.on('dataZoom', updatePosition)
   }
-  chart.on('graphRoam', updatePosition)
+  // chart.on('graphRoam', updatePosition)
   function updatePosition() {
     //更新节点定位的函数
     chart.setOption({
