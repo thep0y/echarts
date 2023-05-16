@@ -13,6 +13,7 @@ import { GraphChart, type GraphSeriesOption } from 'echarts/charts'
 import { CanvasRenderer } from 'echarts/renderers'
 import data from './data.json'
 import { generateColors, generateRandomColors } from '~/lib/color'
+import { splitIntoLines } from '~/lib/string'
 
 echarts.use([
   TitleComponent,
@@ -73,10 +74,33 @@ export const graph = (element: HTMLDivElement, clear = false): void => {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       // show: element.symbolSize! > 30,
       show: true,
+      fontSize: 16,
     }
   })
 
-  const colors = generateColors(nodes.length)
+  // const colors = generateColors(nodes.length)
+  const colors = [
+    '#E91E63',
+    '#03A9F4',
+    '#4CAF50',
+    '#9C27B0',
+    '#FFC107',
+    '#673AB7',
+    '#009688',
+    '#FF5722',
+    '#795548',
+    '#607D8B',
+    '#FFEB3B',
+    '#2196F3',
+    '#8BC34A',
+    '#CDDC39',
+    '#FF9800',
+    '#9E9E9E',
+    '#de7a74',
+    '#00BCD4',
+    '#3F51B5',
+    '#FFEB3B',
+  ]
   const option: EChartsOption = {
     title: {
       text: title,
@@ -108,7 +132,7 @@ export const graph = (element: HTMLDivElement, clear = false): void => {
       {
         name: title,
         type: 'graph',
-        layout: 'force',
+        layout: 'circular',
         force: {
           repulsion: 1000,
           edgeLength: [1000, 300],
@@ -120,7 +144,9 @@ export const graph = (element: HTMLDivElement, clear = false): void => {
         draggable: true,
         label: {
           position: 'right',
-          formatter: '{b}',
+          formatter: (params): string => {
+            return splitIntoLines(params.name, 6)
+          },
         },
         lineStyle: {
           color: 'source',
