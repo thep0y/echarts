@@ -12,7 +12,6 @@ import {
 import { GraphChart, type GraphSeriesOption } from 'echarts/charts'
 import { CanvasRenderer } from 'echarts/renderers'
 import data from './data.json'
-import { generateColors, generateRandomColors } from '~/lib/color'
 import { splitIntoLines } from '~/lib/string'
 
 echarts.use([
@@ -44,7 +43,6 @@ type EChartsOption = echarts.ComposeOption<
 
 interface Category {
   name?: string
-  value: number
 }
 
 const central = data['中央']
@@ -69,12 +67,12 @@ export const graph = (element: HTMLDivElement, clear = false): void => {
 
   chart.hideLoading()
 
-  nodes.forEach((element: GraphNode) => {
-    element.label = {
+  nodes.forEach((elemente) => {
+    elemente.label = {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       // show: element.symbolSize! > 30,
       show: true,
-      fontSize: 16,
+      fontSize: 24,
     }
   })
 
