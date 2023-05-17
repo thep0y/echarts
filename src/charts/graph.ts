@@ -114,6 +114,14 @@ export const graph = (element: HTMLDivElement, clear = false): void => {
           show: true,
           pixelRatio: 3,
         },
+        myPrintLayouts: {
+          show: true,
+          title: '打印节点坐标',
+          icon: 'image:///src/assets/svg/printer.svg',
+          onclick: () => {
+            getLayouts(chart)
+          },
+        },
       },
     },
     tooltip: {},
@@ -172,7 +180,7 @@ export const graph = (element: HTMLDivElement, clear = false): void => {
       graphic: echarts.util.map(
         option.series[0].data,
         function (item, dataIndex) {
-          //使用图形元素组件在节点上划出一个隐形的图形覆盖住节点
+          //使用图形素组件在节点上划出一个隐形的图形覆盖住节点
           const tmpPos = chart.convertToPixel({ seriesIndex: 0 }, [
             item.x,
             item.y,
@@ -206,7 +214,7 @@ export const graph = (element: HTMLDivElement, clear = false): void => {
       graphic: echarts.util.map(
         option.series[0].data,
         function (item, dataIndex) {
-          const tmpPos = chart.convertToPixel({ seriesIndex: 0 }, [
+          const mpPos = chart.convertToPixel({ seriesIndex: 0 }, [
             item.x,
             item.y,
           ])
@@ -227,4 +235,10 @@ export const graph = (element: HTMLDivElement, clear = false): void => {
     chart.setOption(option)
     updatePosition()
   }
+}
+
+export const getLayouts = (chart: echarts.ECharts): void => {
+  const layouts = chart.getModel().getSeriesByIndex(0).getData()._itemLayouts
+
+  console.log(layouts)
 }
