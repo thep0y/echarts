@@ -47,25 +47,21 @@ interface Category {
 
 const central = data['中央']
 
+// 从大到小排列
 const nodes = central.nodes.sort((a, b) => b.symbolSize - a.symbolSize)
 
 const categories: Category[] = []
 
 nodes.forEach((node, idx) => {
-  // n.x = Math.random() * 1000
-  // n.y = Math.random() * 1000
-  node.category = idx
   categories.push({ name: node.name })
 })
 
 const title = '机关间联合发文关系'
 
-export const graph = (element: HTMLDivElement, clear = false): void => {
+export const circular = (element: HTMLDivElement, clear = false): void => {
   clear && echarts.dispose(element)
 
   const chart = echarts.init(element)
-
-  chart.hideLoading()
 
   nodes.forEach((elemente) => {
     elemente.label = {
@@ -139,15 +135,18 @@ export const graph = (element: HTMLDivElement, clear = false): void => {
         name: title,
         type: 'graph',
         layout: 'circular',
-        force: {
-          repulsion: 1000,
-          edgeLength: [1000, 300],
+        // force: {
+        //   repulsion: 1000,
+        //   edgeLength: [1000, 300],
+        // },
+        circular: {
+          rotateLabel: true,
         },
         data: nodes,
         links: central.links,
         categories: categories,
         roam: true,
-        draggable: true,
+        // draggable: true,
         label: {
           position: 'right',
           formatter: (params): string => {
@@ -169,70 +168,6 @@ export const graph = (element: HTMLDivElement, clear = false): void => {
   }
 
   chart.setOption(option)
-
-  // initInvisibleGraphic()
-
-  function initInvisibleGraphic() {
-    // Add shadow circles (which is not visible) to enable drag.
-    chart.setOption({
-      graphic: echarts.util.map(
-        option.series[0].data,
-        function (item, dataIndex) {
-          //使用图形素组件在节点上划出一个隐形的图形覆盖住节点
-          const tmpPos = chart.convertToPixel({ seriesIndex: 0 }, [
-            item.x,
-            item.y,
-          ])
-
-          return {
-            type: 'circle',
-            id: dataIndex,
-            position: tmpPos,
-            shape: {
-              cx: 0,
-              cy: 0,
-              r: 20,
-            },
-            // silent:true,
-            invisible: true,
-            draggable: true,
-            ondrag: echarts.util.curry(onPointDragging, dataIndex),
-            z: 100, //使图层在最高层
-          }
-        }
-      ),
-    })
-    window.addEventListener('resize', updatePosition)
-    chart.on('dataZoom', updatePosition)
-  }
-  // chart.on('graphRoam', updatePosition)
-  function updatePosition() {
-    //更新节点定位的函数
-    chart.setOption({
-      graphic: echarts.util.map(
-        option.series[0].data,
-        function (item, dataIndex) {
-          const mpPos = chart.convertToPixel({ seriesIndex: 0 }, [
-            item.x,
-            item.y,
-          ])
-
-          return {
-            position: tmpPos,
-          }
-        }
-      ),
-    })
-  }
-  function onPointDragging(dataIndex) {
-    //节点上图层拖拽执行的函数
-    const tmpPos = chart.convertFromPixel({ seriesIndex: 0 }, this.position)
-
-    option.series[0].data[dataIndex].x = tmpPos[0]
-    option.series[0].data[dataIndex].y = tmpPos[1]
-    chart.setOption(option)
-    updatePosition()
-  }
 }
 
 export const getLayouts = (chart: echarts.ECharts): void => {

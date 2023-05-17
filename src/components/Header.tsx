@@ -1,10 +1,10 @@
 import React, { memo } from 'react'
-import { graph } from '~/charts'
+import { circular } from '~/charts/graph'
 
 type Render = (e: HTMLDivElement, clear?: boolean) => void
 
 const charts: Record<string, Render> = {
-  网络关系图: graph
+  网络关系图: circular
 }
 
 interface HeaderProps {
