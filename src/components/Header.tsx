@@ -1,10 +1,12 @@
 import React, { memo } from 'react'
 import { circular } from '~/charts/graph'
+import { multilayer } from "~/charts/bar"
 
 type Render = (e: HTMLDivElement, clear?: boolean) => void
 
 const charts: Record<string, Render> = {
-  网络关系图: circular
+  网络关系图: circular,
+  多层柱状图: multilayer
 }
 
 interface HeaderProps {

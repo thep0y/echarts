@@ -1,38 +1,7 @@
-import * as echarts from 'echarts/core'
-import {
-  TitleComponent,
-  type TitleComponentOption,
-  TooltipComponent,
-  type TooltipComponentOption,
-  LegendComponent,
-  type LegendComponentOption,
-  ToolboxComponent,
-  GraphicComponent,
-} from 'echarts/components'
-import { GraphChart, type GraphSeriesOption } from 'echarts/charts'
-import { CanvasRenderer } from 'echarts/renderers'
+import * as echarts from 'echarts'
+import { type GraphSeriesOption } from 'echarts/charts'
 import data from './data.json'
 import { splitIntoLines } from '~/lib/string'
-
-echarts.use([
-  TitleComponent,
-  TooltipComponent,
-  LegendComponent,
-  GraphChart,
-  CanvasRenderer,
-  ToolboxComponent,
-  GraphicComponent,
-])
-
-interface GraphNode {
-  id?: string
-  name?: string
-  symbolSize?: number
-  label?: {
-    show?: boolean
-  }
-  category?: number
-}
 
 type EChartsOption = echarts.ComposeOption<
   | TitleComponentOption
@@ -52,7 +21,7 @@ const nodes = central.nodes.sort((a, b) => b.symbolSize - a.symbolSize)
 
 const categories: Category[] = []
 
-nodes.forEach((node, idx) => {
+nodes.forEach((node) => {
   categories.push({ name: node.name })
 })
 
@@ -61,7 +30,7 @@ const title = '机关间联合发文关系'
 export const circular = (element: HTMLDivElement, clear = false): void => {
   clear && echarts.dispose(element)
 
-  const chart = echarts.init(element)
+  const chart = echarts.init(element, undefined, { width: 2000, height: 2000 })
 
   nodes.forEach((elemente) => {
     elemente.label = {
